@@ -3,6 +3,7 @@ export interface SourceConfig {
     password: string;
     project: string;
     repository: string;
+    branch: string;
     limit: number;
     git: {
         uri: string;

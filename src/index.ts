@@ -85,5 +85,6 @@ main()
     .catch(err => {
         logger.error('failed: ' + err);
         logger.error('stacktrace: ' + err.stack);
+
         process.exit(1);
     });

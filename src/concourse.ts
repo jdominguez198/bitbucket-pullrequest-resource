@@ -9,6 +9,7 @@ export interface SourceConfig {
         private_key: string;
     };
     log_level?: string;
+    listenBranch?: string;
 }
 
 export interface Version {

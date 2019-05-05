@@ -51,7 +51,12 @@ interface PullRequestsResponse {
                     },
                 },
             },
-        }
+        },
+        destination: {
+            branch: {
+                name: string;
+            },
+        },
     }];
 }
 
@@ -84,12 +89,15 @@ export class BitBucketClient {
         return JSON.parse(prs);
     }
 
-    async getPullRequests(project: string, repository: string, limit: number): Promise<PullRequest[]> {
+    async getPullRequests(project: string, repository: string, limit: number, branch: string): Promise<PullRequest[]> {
         const prs = await this.getPullRequestsResponse(project, repository, limit);
 
         const result: PullRequest[] = [];
 
         for (const pr of prs.values) {
+            if (branch !== '' && branch !== pr.destination.branch.name) {
+                continue;
+            }
             // fix url
             const commitUrl = pr.source.commit.links.self.href.replace('https://bitbucket.org/!api', 'https://bitbucket.org/api');
             this._logger.debug(`BitBucketClient.getPullRequests() - commitUrl: ${commitUrl}`);

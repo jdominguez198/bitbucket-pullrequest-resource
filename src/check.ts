@@ -13,10 +13,12 @@ export class CheckCommand {
 
     async doIt(source: SourceConfig, version: Version | undefined): Promise<PullRequest[]> {
         this._logger.debug('CheckCommand.doIt()');
+        const listenBranch = typeof source.listenBranch === 'undefined' ? '' : source.listenBranch;
         const prs: PullRequest[] = await this._bitBucketClient.getPullRequests(
             source.project,
             source.repository,
             source.limit,
+            listenBranch,
         );
 
         if (version != null) {

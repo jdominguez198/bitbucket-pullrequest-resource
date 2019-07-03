@@ -24,7 +24,7 @@ resource_types:
 
 * `repository`: *Required.* BitBucket repository.
 
-* `git`: *Required.* configuration is based on the [Git resource](https://github.com/concourse/git-resource). The branch configuration from the original resource is ignored. 
+* `git`: *Required.* configuration is based on the [Git resource](https://github.com/concourse/git-resource). The branch configuration from the original resource is ignored.
 
 
 ### Example
@@ -109,3 +109,17 @@ Update the build status of pull request with desired state.
 
 * `description`: *Optional.* Description of the build result.
 
+#### Sonar
+
+Just after cloning the repository with `in`, there is a check for an existing `sonar-project.properties`
+file on the root. If the file exists it has appended automatically 3 settings:
+
+```
+sonar.pullrequest.branch={PR_BRANCH}
+sonar.pullrequest.key={PR_ID}
+sonar.pullrequest.base={PR_TARGET_BRANCH}
+```
+
+You just have to execute, whenever you want `sonar-scanner` from the same root of the repository, to add
+the PR check to your sonar. Of course, include extra configuration as needed both in `sonar-project.properties`
+or from the commandline.

@@ -3,6 +3,7 @@ import { ConcourseRequest, SourceConfig, Version, ConcourseResponse, PullRequest
 import { BitBucketClient, PullRequest, PullRequestResponse } from './bitbucket';
 import { execFile } from 'child_process';
 import { Execute } from './exec';
+import { SonarProjectWriter } from './sonar-project';
 
 interface GitResourcePayload {
     source: {
@@ -92,6 +93,9 @@ export class InCommand {
                 { name: 'pullrequest updated', value: pr.updated_on },
             ],
         };
+
+        const sonarProjectWriter = new SonarProjectWriter(this._logger, pr, version);
+        await sonarProjectWriter.write(destination);
         return concourseResponse;
     }
 }
